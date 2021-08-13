@@ -23,6 +23,8 @@ if (!!!MessageChannelName)
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 
+	getThreads();
+
 	const job = schedule.scheduleJob('23 * * * *', function() {
 		getThreads();
 	});
