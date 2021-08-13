@@ -43,8 +43,10 @@ function getThreads()
 
 		// create Header Text
 		let text = "Unser Community-Mitglied Michele war so nett, eine automatisierte Übersicht der vorhandenen Threads zu bauen. \n" +
-			"Diesen Überblick findet ihr unter diesem Text.\n" +
-			"Es sind aktive als auch archivierte Threads und jede Stunde wird geschaut ob sich was geändert hat. \n";
+				   "Diesen Überblick findet ihr unter diesem Text. Es sind aktive als auch archivierte Threads und jede Stunde wird geschaut ob sich was geändert hat und die Liste entsprechend angepasst.\n" +
+				   "\n" +
+				   "Anregungen/Feedback dazu gerne in #feedback \n";
+
 		let promises = [];
 
 		// get all channels
