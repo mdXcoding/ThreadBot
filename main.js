@@ -5,7 +5,8 @@ const schedule = require('node-schedule');
 
 // settings
 const token = process.env.DISCORD_TOKEN;
-const TheChannelToMessage = process.env.DISCORD_CALLBACK_CHANNEL;
+const MessageChannelName = process.env.DISCORD_CALLBACK_CHANNEL;
+const FeedbackChannelName = process.env.DISCORD_FEEDBACK_CHANNEL;
 
 if (!!!token)
 {
@@ -13,7 +14,7 @@ if (!!!token)
 	return;
 }
 
-if (!!!TheChannelToMessage)
+if (!!!MessageChannelName)
 {
 	console.log("NO DISCORD CHANNEL SET");
 	return;
@@ -41,11 +42,19 @@ function getThreads()
 		// dismiss inactive guild
 		if (!!!guild.available) return;
 
+		// get feedbackChannel
+		const feedbackChannel = client.channels.cache.find(channel => channel.name === FeedbackChannelName);
+
+
 		// create Header Text
 		let text = "Unser Community-Mitglied Michele war so nett, eine automatisierte Übersicht der vorhandenen Threads zu bauen. \n" +
 				   "Diesen Überblick findet ihr unter diesem Text. Es sind aktive als auch archivierte Threads und jede Stunde wird geschaut ob sich was geändert hat und die Liste entsprechend angepasst.\n" +
-				   "\n" +
-				   "Anregungen/Feedback dazu gerne in #feedback \n";
+				   "\n";
+
+		if (feedbackChannel)
+		{
+			text += `Anregungen/Feedback dazu gerne in <#${feedbackChannel.id}>\n`;
+		}
 
 		let promises = [];
 
@@ -97,14 +106,14 @@ function getThreads()
 			Promise.all(promises).then(response => {
 
 				// get channel to message
-				const channelToMessage = client.channels.cache.find(channel => channel.name === TheChannelToMessage);
+				const channelToMessage = client.channels.cache.find(channel => channel.name === MessageChannelName);
 				if (!!!channelToMessage) return;
 
 				// check last message
 				channelToMessage.messages.fetch({limit: 1}).then(response => {
 					let message = response.first();
 
-					if (message.author.bot)
+					if (message && message.author.bot)
 					{
 						message.edit(text);
 					}
