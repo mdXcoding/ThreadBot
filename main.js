@@ -51,6 +51,7 @@ function getThreads()
 		// create Header Text
 		let text = "Unser Community-Mitglied Michele war so nett, eine automatisierte Übersicht der vorhandenen Threads zu bauen. \n" +
 				   "Diesen Überblick findet ihr unter diesem Text. Es sind aktive als auch archivierte Threads und jede Stunde wird geschaut ob sich was geändert hat und die Liste entsprechend angepasst.\n" +
+				   "Anmerkung zu archivierten Threads (die ohne Link): Diese können über nur über Menü oben rechts in der App geöffnet werden. \n" +
 				   "\n";
 
 		if (feedbackChannel)
@@ -99,7 +100,14 @@ function getThreads()
 						text += `\n ** ${channel.name} ** \n`;
 
 						threads.each(thread => {
-							text += `** ** ** ** <#${thread.id}> \n`;
+							if (thread.archived)
+							{
+								text +=	`** ** ** ** #${thread.name} \n`;
+							}
+							else
+							{
+								text += `** ** ** ** <#${thread.id}> \n`;
+							}
 						});
 					})
 				);
