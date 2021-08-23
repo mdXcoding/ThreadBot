@@ -97,16 +97,16 @@ function getThreads()
 						if(!!!threads.size) return;
 
 						// channel text
-						text += `\n ** ${channel.name} ** \n`;
+						text += `\n ** <#${channel.id}> ** \n`;
 
 						threads.each(thread => {
 							if (thread.archived)
 							{
-								text +=	`** ** ** ** #${thread.name} \n`;
+								text +=	`** ** ** - #${thread.name} \n`;
 							}
 							else
 							{
-								text += `** ** ** ** <#${thread.id}> \n`;
+								text += `** ** ** - <#${thread.id}> \n`;
 							}
 						});
 					})
