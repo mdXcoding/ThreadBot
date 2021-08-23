@@ -102,11 +102,11 @@ function getThreads()
 						threads.each(thread => {
 							if (thread.archived)
 							{
-								text +=	`** ** ** - #${thread.name} \n`;
+								text +=	`- ** ** #${thread.name} \n`;
 							}
 							else
 							{
-								text += `** ** ** - <#${thread.id}> \n`;
+								text += `- ** ** <#${thread.id}> \n`;
 							}
 						});
 					})
