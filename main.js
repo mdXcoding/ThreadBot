@@ -7,6 +7,7 @@ const schedule = require('node-schedule');
 const token = process.env.DISCORD_TOKEN;
 const MessageChannelName = process.env.DISCORD_CALLBACK_CHANNEL;
 const FeedbackChannelName = process.env.DISCORD_FEEDBACK_CHANNEL;
+const DebugMode = false;
 
 if (!!!token)
 {
@@ -82,24 +83,38 @@ function getThreads()
 
 							// inactive
 							channel.threads.fetchArchived({ type: "public" }).then(response => {
-
-								threads.inActive = response.threads;
+								
+								threads.inActive = response.threads ? response.threads : null;
 								resolve(new Collection([...threads.active, ...threads.inActive]));
 							})
 								.catch(e => {
 									console.log("access denied: " + channel.name);
+									resolve([null, null]);
 								});
 						});
 					})
 					.then(threads => {
 
 						// we drop no length threads
-						if(!!!threads.size) return;
+						if(!!!threads.size) {
+							return;
+						}
 
 						// channel text
+						if (DebugMode)
+						{
+							console.log("Channel: " + channel.name);
+						}
+
 						text += `\n ** <#${channel.id}> ** \n`;
 
 						threads.each(thread => {
+
+							if (DebugMode)
+							{
+								console.log("- - - " + thread.name);
+							}
+
 							if (thread.archived)
 							{
 								text +=	`** ** - #${thread.name} \n`;
